@@ -36,7 +36,7 @@ class World
   
     if input.empty?
       puts "Sorry, I don't understand that",""
-      parse_command
+      next
     end
 
     if input[0] == 'exit'
