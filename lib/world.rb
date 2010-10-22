@@ -12,7 +12,7 @@ class World
   
   def bladd_scene(key, &block)
     scn = Scene.new(key)
-    scn.instance_eval block
+    scn.instance_eval &block
     
     @scenes << scn
   end
