@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Scene
   attr_accessor :id, :description, :options, :actions
   
