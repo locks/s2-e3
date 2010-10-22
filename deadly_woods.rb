@@ -39,6 +39,7 @@ A short Description follows.",
               :description => "You enter through the magic ",
               :target      => :woods
           })
+          scn.options.delete :key
         end,
         :picked => false
       }
