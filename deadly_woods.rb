@@ -4,6 +4,37 @@ require './lib/world.rb'
 
 game = World.new("--Scott Thomas and the Revolving Door--")
 
+class Dummy; def bladd_scene(a,&b) end end
+
+Dummy.new.bladd_scene(:introduction) do
+
+  description "Welcome to the game.\nA short description follows."
+
+  options do
+    add :frog, "You kill a frog.\t\t\t"
+    add :key, "You see a key on the floor.\t\t"
+    add :north, "There is a road leading to some woods"
+  end
+
+  actions do
+    look_at :frog, 'You see a dead frog.'
+    pick_up :key, 'You pick the key', lambda {|scn|
+        scn.options.store :key, "The key feels heavy in your hand.\t"
+        scn.actions[:use][:key][:picked] = true
+    }
+    go :north, 'You trod towards the woods.', :woods
+    use :key, "A magic gate unfolds before your eyes.", lambda {|scn|
+      scn.options.store :south, "The magic gate looms...\t\t\t"
+      scn.actions[:go].store :south, {
+        :description => "You enter through the magic gate.",
+        :target      => :woods
+      }
+    }
+    use :frog, "You make a lucky charm for your key ring. Ew ew ew.", lambda {|scn| scn.options.delete :frog}
+  end
+
+end 
+
 game.add_scene(
   :introduction,
   "Welcome to the game.
