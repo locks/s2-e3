@@ -4,17 +4,13 @@ require './lib/world.rb'
 
 game = World.new("--Scott Thomas and the Revolving Door--")
 
-class Dummy; def bladd_scene(a,&b) end end
-
-Dummy.new.bladd_scene(:introduction) do
+game.bladd_scene(:introduction) do
 
   description "Welcome to the game.\nA short description follows."
 
-  options do
-    add :frog, "You kill a frog.\t\t\t"
-    add :key, "You see a key on the floor.\t\t"
-    add :north, "There is a road leading to some woods"
-  end
+  option :frog,  "You kill a frog.\t\t\t"
+  option :key,   "You see a key on the floor.\t\t"
+  option :north, "There is a road leading to some woods"
 
   actions do
     look_at :frog, 'You see a dead frog.'

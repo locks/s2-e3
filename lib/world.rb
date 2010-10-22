@@ -10,21 +10,28 @@ class World
     @scenes << Scene.new(*args)
   end
   
+  def bladd_scene(key, &block)
+    scn = Scene.new(key)
+    scn.instance_eval block
+    
+    @scenes << scn
+  end
+  
   def start
     puts @title, ""
     
-    change_scene :introduction
+    switch_scene :introduction
     parse_command
   end
   
-  def change_scene(scene)
+  def switch_scene(scene)
     @scenes.find do |scn|
       scn.id==scene and @current_scene = scn
     end
   end
   
   def go(direction)
-    change_scene @current_scene.go(direction)
+    switch_scene @current_scene.go(direction)
   end
 
   def parse_command

@@ -14,6 +14,17 @@ class Scene
     @options.to_a.each {|op| puts "ø #{op[1]}\t(#{op[0]})" }
   end
   
+  def description(string)
+    @description = string
+  end
+  
+  def option(symbol, description)
+    @options.store symbol, description
+  end
+  
+  def actions
+  end
+  
   def look_at(target)
     target = target.to_sym
     sight = actions[:look_at][target]
