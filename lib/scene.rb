@@ -15,7 +15,15 @@ class Scene
   end
   
   def look_at(target)
-    puts actions[:look_at][target.to_sym]
+    target = target.to_sym
+    sight = actions[:look_at][target]
+    
+    if sigh.nil?
+      puts "Try as you might, you ain't gonna see it."
+      return
+    end
+    
+    puts sight[:description]
   end
   
   def pick_up(target)
@@ -26,17 +34,24 @@ class Scene
     mod = actions[:pick_up][target][:modifier]
     mod.call(self) if !mod.nil?
   end
-  
+
   def use(target)
     target = target.to_sym
-    if actions[:use][target][:picked]==false
+    object = actions[:use][target]
+    
+    if object.nil?
+      puts "You can't use that, silly goose."
+      return
+    end
+    
+    if object[:picked]==false
       puts "You can't use that yet."
       return
     end
     
-    puts actions[:use][target][:description]
+    puts object[:description]
 
-    mod = actions[:use][target][:modifier]
+    mod = object[:modifier]
     mod.call(self) if !mod.nil?
   end
 
