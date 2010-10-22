@@ -22,7 +22,9 @@ class Scene
     @options.store symbol, description
   end
   
-  def actions
+  def action(symbol, object, &modifier)
+    @actions.store :key, symbol
+    @actions[symbol].store object, &modifier
   end
   
   def look_at(target)
