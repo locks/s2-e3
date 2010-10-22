@@ -22,14 +22,18 @@ class Scene
     @options.store symbol, description
   end
   
-  def action(symbol, object, &modifier)
-    @actions.store :key, symbol
-    @actions[symbol].store object, &modifier
+  def action(action, object, description, target=nil, &blk)
+    @actions[action] = {
+      object => { :description, description }
+    }
+
+    @actions[action][object].store :target, target unless target.nil?
+    @actions[action][object].store :modifier, blk unless blk.nil?
   end
   
   def look_at(target)
     target = target.to_sym
-    sight = actions[:look_at][target]
+    sight = actions[:look_at][target][:description]
     
     if sigh.nil?
       puts "Try as you might, you ain't gonna see it."
