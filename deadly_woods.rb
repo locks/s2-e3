@@ -12,22 +12,20 @@ game.bladd_scene(:introduction) do
   option :key,   "You see a key on the floor.\t\t"
   option :north, "There is a road leading to some woods"
 
-  actions do
-    look_at :frog, 'You see a dead frog.'
-    pick_up :key, 'You pick the key', lambda {|scn|
+  action :look_at, :frog, 'You see a dead frog.'
+  action :pick_up, :key,  'You pick the key', lambda {|scn|
         scn.options.store :key, "The key feels heavy in your hand.\t"
         scn.actions[:use][:key][:picked] = true
-    }
-    go :north, 'You trod towards the woods.', :woods
-    use :key, "A magic gate unfolds before your eyes.", lambda {|scn|
+  }
+  action :go,  :north, 'You trod towards the woods.', :woods
+  action :use, :key,   "A magic gate unfolds before your eyes.", lambda {|scn|
       scn.options.store :south, "The magic gate looms...\t\t\t"
       scn.actions[:go].store :south, {
         :description => "You enter through the magic gate.",
         :target      => :woods
       }
-    }
-    use :frog, "You make a lucky charm for your key ring. Ew ew ew.", lambda {|scn| scn.options.delete :frog}
-  end
+  }
+  action :use, :frog, "You make a lucky charm for your key ring. Ew ew ew.", lambda {|scn| scn.options.delete :frog}
 
 end 
 
