@@ -42,6 +42,10 @@ A short Description follows.",
           scn.options.delete :key
         end,
         :picked => false
+      },
+      :frog => {
+        :description => "You make a lucky charm for your key ring. Ew ew ew.",
+        :modifier => lambda {|scn| scn.options.delete :frog }
       }
     }
   }
@@ -53,12 +57,12 @@ game.add_scene(
 
   ... You die.",
   {
-    :past => "Go past in time.",
+    :back => "Go past in time.",
     :exit => "Exit the game."
   },
   {
     :go => {
-      :past => {
+      :back => {
         :description => "Death slowly turns back your hourglass.",
         :target      => :introduction
       }
