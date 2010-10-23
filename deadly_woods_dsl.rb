@@ -149,6 +149,11 @@ game.dsl_add_scene :livingroom do
 end
 
 game.dsl_add_scene :ravine do
+  title "You see a white wall. The sky is also white in this part.
+In fact.. everything is white and blocky..."
+  
+  option :download, "Buffering..."
+  action :use, :download, "You download the rest of the level" do |scn| puts "come back later"; exit end
 end
 
 game.dsl_add_scene :river do
