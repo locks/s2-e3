@@ -22,20 +22,20 @@ class Scene
     @options.store symbol, description
   end
   
-  def action(action, object, description, target=nil, &blk)
-    @actions[action] = {
-      object => { :description, description }
+  def action(name, object, description, target=nil, &blk)
+    @actions[name] = {
+      object => { :description => description }
     }
 
-    @actions[action][object].store :target, target unless target.nil?
-    @actions[action][object].store :modifier, blk unless blk.nil?
+    @actions[name][object].store :target,   target unless target.nil?
+    @actions[name][object].store :modifier, blk    unless blk.nil?
   end
   
-  def look_at(target)
-    target = target.to_sym
-    sight = actions[:look_at][target][:description]
+  def look_at(object)
+    object = object.to_sym
+    sight = actions[:look_at][object][:description]
     
-    if sigh.nil?
+    if sight.nil?
       puts "Try as you might, you ain't gonna see it."
       return
     end
@@ -43,18 +43,18 @@ class Scene
     puts sight[:description]
   end
   
-  def pick_up(target)
-    target = target.to_sym
+  def pick_up(object)
+    object = object.to_sym
     
-    puts actions[:pick_up][target][:description]
+    puts actions[:pick_up][object][:description]
 
-    mod = actions[:pick_up][target][:modifier]
+    mod = actions[:pick_up][object][:modifier]
     mod.call(self) if !mod.nil?
   end
 
-  def use(target)
-    target = target.to_sym
-    object = actions[:use][target]
+  def use(object)
+    object = object.to_sym
+    object = actions[:use][object]
     
     if object.nil?
       puts "You can't use that, silly goose."
@@ -69,11 +69,11 @@ class Scene
     puts object[:description]
 
     mod = object[:modifier]
-    mod.call(self) if !mod.nil?
+    mod.call(self) unless mod.nil?
   end
 
-  def go(target)
-    direction = actions[:go][target.to_sym]
+  def go(path)
+    direction = actions[:go][path.to_sym]
 
     if direction.nil?
       puts "That's not a place you want to go. Trust me."
