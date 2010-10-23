@@ -1,16 +1,17 @@
 class World
   attr_accessor :title, :description, :scenes
     
-  def initialize(title="Generic Title")
-    @title = title
-    @scenes = []
+  def initialize(title="Generic Title", description="Generic Description", scenes=[])
+    @title       = title
+    @description = description
+    @scenes      = scenes
   end
   
   def add_scene(*args)
     @scenes << Scene.new(*args)
   end
   
-  def bladd_scene(key, &block)
+  def dsl_add_scene(key, &block)
     scn = Scene.new(key)
     scn.instance_eval &block
     
@@ -18,7 +19,8 @@ class World
   end
   
   def start
-    puts @title, ""
+    puts "--#{@title}--", ""
+    puts @description, ""
     
     switch_scene :introduction
     parse_command
