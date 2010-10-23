@@ -23,20 +23,13 @@ class Scene
   end
   
   def action(name, object, description, target=nil, &blk)
-    if @actions[name]
-      if @actions[name][object]
-        @actions[name][object].store :description, description
-      else
-        @actions[name].store object, {:description=>description}
-      end
-    else
-      @actions[name] = {
-        object => {:description => description}
+    @actions.store name, {
+      object => {
+        :description => description,
+        :target      => target,
+        :modifier    => blk
       }
-    end
-  
-    @actions[name][object].store :target,   target unless target.nil?
-    @actions[name][object].store :modifier, blk    unless blk.nil?
+    }
   end
   
   def do_action(name, object, msg, &blk)
@@ -47,6 +40,11 @@ class Scene
     
     if !exists
       puts "That doesn't even exist."
+      return
+    end
+    
+    if actions[name].nil?
+      puts "Nope, sorry."
       return
     end
     
