@@ -14,7 +14,7 @@ class Scene
     @options.to_a.each {|op| puts "ø #{op[1]}\t(#{op[0]})" }
   end
   
-  def description(string)
+  def title(string)
     @description = string
   end
   
@@ -23,45 +23,68 @@ class Scene
   end
   
   def action(name, object, description, target=nil, &blk)
-    @actions[name] = {
-      object => { :description => description }
-    }
-
+    if @actions[name]
+      if @actions[name][object]
+        @actions[name][object].store :description, description
+      else
+        @actions[name].store object, {:description=>description}
+      end
+    else
+      @actions[name] = {
+        object => {:description => description}
+      }
+    end
+  
     @actions[name][object].store :target,   target unless target.nil?
     @actions[name][object].store :modifier, blk    unless blk.nil?
   end
   
-  def look_at(object)
+  def do_action(name, object, msg, &blk)
     object = object.to_sym
-    sight = actions[:look_at][object][:description]
+
+    exists = false
+    actions.each_value {|value| exists = true unless value[object].nil? }
     
-    if sight.nil?
-      puts "Try as you might, you ain't gonna see it."
+    if !exists
+      puts "That doesn't even exist."
       return
     end
     
-    puts sight[:description]
+    if actions[name][object].nil?
+      puts msg
+      return
+    end
+
+    blk.call(object) if blk
+    puts actions[name][object][:description]
+  end
+  
+  def look_at(object)
+    msg = "Try as you might, you ain't gonna see it."
+    do_action(:look_at, object, msg)
   end
   
   def pick_up(object)
-    object = object.to_sym
-    
-    puts actions[:pick_up][object][:description]
+    msg = "I won't use my hands on that."
 
-    mod = actions[:pick_up][object][:modifier]
-    mod.call(self) if !mod.nil?
+    do_action(:pick_up,object,msg) do |obj|
+      mod = actions[:pick_up][obj][:modifier]
+      mod.call(self) if mod
+    end
   end
 
   def use(object)
     object = object.to_sym
     object = actions[:use][object]
     
+    msg = "You can't use that, silly goose."
+
     if object.nil?
       puts "You can't use that, silly goose."
       return
     end
     
-    if object[:picked]==false
+    if object[:target]==false
       puts "You can't use that yet."
       return
     end
@@ -73,15 +96,20 @@ class Scene
   end
 
   def go(path)
-    direction = actions[:go][path.to_sym]
+#    direction = actions[:go][path.to_sym]
 
-    if direction.nil?
-      puts "That's not a place you want to go. Trust me."
-      return
+#    if direction.nil?
+#      puts "That's not a place you want to go. Trust me."
+#      return
+#    end
+    
+    msg = "That's not a place you want to go. Trust me."
+    direction = nil
+    do_action(:go, path, msg) do |obj|
+      direction = actions[:go][obj][:target]
     end
 
-    puts direction[:description]
-    direction[:target]
+    direction
   end
   alias_method :move, :go
 
