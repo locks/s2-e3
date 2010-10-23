@@ -25,7 +25,7 @@ game.bladd_scene(:introduction) do
         :target      => :woods
       }
   end
-  action :use, :frog, "You make a lucky charm for your key ring. Ew ew ew.", lambda {|scn| scn.options.delete :frog}
+  action :use, :frog, "You make a lucky charm for your key ring. Ew ew ew.", lambda {|scn| scn.options.delete :frog }
 end
 
 game.bladd_scene(:woods) do
@@ -49,7 +49,11 @@ A short Description follows.",
     :north => "There is a road leading to some woods."
   },
   {
-    :look_at => { :frog => 'You see a dead frog.' },
+    :look_at => {
+      :frog => {
+        :description => 'You see a dead frog.'
+      }
+    },
     :pick_up => {
       :key  => {
         :description => 'You pick the key.',
@@ -92,7 +96,7 @@ old_game.add_scene(
 
   ... You die.",
   {
-    :back => "Go past in time.",
+    :back => "Go back in time.",
     :exit => "Exit the game."
   },
   {
@@ -105,10 +109,16 @@ old_game.add_scene(
   }
 )
 
+=begin
+File.open('game_dump.txt','w') {|file|
+  file.write game.inspect
+  file.write old_game.inspect
+}
+=begin
+=end
+
 pp game
-puts
 pp old_game
 
-
-
-game.start
+#game.start
+old_game.start
