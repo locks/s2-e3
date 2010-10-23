@@ -1,30 +1,39 @@
 class World
   attr_accessor :title, :description, :scenes
     
-  def initialize(title="Generic Title")
-    @title = title
-    @scenes = []
+  def initialize(title="Generic Title", description="Generic Description", scenes=[])
+    @title       = title
+    @description = description
+    @scenes      = scenes
   end
   
   def add_scene(*args)
     @scenes << Scene.new(*args)
   end
   
-  def start
-    puts @title, ""
+  def dsl_add_scene(key, &block)
+    scn = Scene.new(key)
+    scn.instance_eval &block
     
-    change_scene :introduction
+    @scenes << scn
+  end
+  
+  def start
+    puts "--#{@title}--", ""
+    puts @description, ""
+    
+    switch_scene :introduction
     parse_command
   end
   
-  def change_scene(scene)
+  def switch_scene(scene)
     @scenes.find do |scn|
       scn.id==scene and @current_scene = scn
     end
   end
   
   def go(direction)
-    change_scene @current_scene.go(direction)
+    switch_scene @current_scene.go(direction)
   end
 
   def parse_command

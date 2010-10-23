@@ -2,8 +2,10 @@ require 'pp'
 require './lib/scene.rb'
 require './lib/world.rb'
 
-game = World.new("--Scott Thomas and the Revolving Door--")
-
+game = World.new(
+  "Scott Thomas and the Revolving Door",
+  "Enter the world of Scott Thomas. But beware, it is not a road easily traveled"
+)
 game.add_scene(
   :introduction,
   "Welcome to the game.
@@ -14,13 +16,17 @@ A short Description follows.",
     :north => "There is a road leading to some woods."
   },
   {
-    :look_at => { :frog => 'You see a dead frog.' },
+    :look_at => {
+      :frog => {
+        :description => 'You see a dead frog.'
+      }
+    },
     :pick_up => {
       :key  => {
         :description => 'You pick the key.',
         :modifier => lambda{|scene|
           scene.options.store(:key, "The key feels heavy in your hand.\t")
-          scene.actions[:use][:key][:picked] = true
+          scene.actions[:use][:key][:target] = true
         }
       }
     },
@@ -41,7 +47,7 @@ A short Description follows.",
           })
           scn.options.delete :key
         end,
-        :picked => false
+        :target => false
       },
       :frog => {
         :description => "You make a lucky charm for your key ring. Ew ew ew.",
@@ -57,7 +63,7 @@ game.add_scene(
 
   ... You die.",
   {
-    :back => "Go past in time.",
+    :back => "Go back in time.",
     :exit => "Exit the game."
   },
   {
