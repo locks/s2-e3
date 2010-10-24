@@ -36,7 +36,7 @@ You look around again."
     scn.actions[:use][:frog][:target] = true
   end
   action :pick_up, :key,  'You pick the key.' do |scn|
-    scn.option :key, "The key feels heavy in your right hand.\t"
+    scn.option :key, "The key feels heavy in your right hand."
     scn.actions[:use][:key][:target] = true
   end
   action :go, :north, 'You trod towards the woods.', :woods
@@ -45,6 +45,7 @@ You look around again."
   end
   action :use, :key, "A magic gate unfolds before your eyes.", false do |scn|
     scn.options.store :south, "The magic gate looms...\t\t"
+    scn.options.delete :key
     action :go, :south, "You draw nearer to the magic gate.", :gate do |scn|
       scn.options.delete :key
     end
@@ -114,8 +115,19 @@ There are two paths leading away from the foul beast."
   option :south, "You hear the sound of water rushing. Your attacker doesn't seem water friendly."
   option :north, "Up the hill there is a wooden shack. It may hold off the creature."
   
-  action :go, :south, "You run down the hill as fast as you can. You fall and tumble down.", :ravine
+  action :go, :south, "You run down the hill as fast as you can. You fall and tumble down.", :end
   action :go, :north, "With heavy breathe you manage to outrun the bloodthirsty creature up the hill.", :woodshack
+end
+
+game.dsl_add_scene :end do
+  title "You see a white wall. The sky is also white in this part.
+In fact.. everything is white and blocky..."
+  
+  option :download, "Buffering..."
+  action :use, :download, "You download the rest of the level", true do |scn|
+    puts "YOU WIN THE GAME!"
+    exit
+  end
 end
 
 game.dsl_add_scene :woodshack do
@@ -158,14 +170,9 @@ game.dsl_add_scene :livingroom do
   action :use, :death, "GOODBYE FOREVER" do |scn| exit end
 end
 
-game.dsl_add_scene :ravine do
-  title "You see a white wall. The sky is also white in this part.
-In fact.. everything is white and blocky..."
-  
-  option :download, "Buffering..."
-  action :use, :download, "You download the rest of the level" do |scn| puts "come back later"; exit end
-end
 
+
+=begin
 game.dsl_add_scene :river do
 end
 
@@ -183,5 +190,6 @@ end
 
 game.dsl_add_scene :home do
 end
+=end
 
 game.start
