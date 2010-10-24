@@ -15,7 +15,12 @@ ___|______|/___"
 )
 
 game.dsl_add_scene(:introduction) do
-  title "You wake up in the midst of the woods, lying in a clearing.
+  title "
+
+   V  #    WwW     www
+...|-_|-.-.| |-.,,,| |-.-.,-.,.-,-.,
+
+You wake up in the midst of the woods, lying in a clearing.
 The midday sun bright in the empty hurts your eyes as you gaze around you for signs of familiarity.
 You get up slighly dazed. Something feels odd. A stillness that doesn't seem natural.
 You look around again."
@@ -31,27 +36,19 @@ You look around again."
     scn.actions[:use][:frog][:target] = true
   end
   action :pick_up, :key,  'You pick the key.' do |scn|
-        scn.option :key, "The key feels heavy in your right hand.\t"
-        scn.actions[:use][:key][:target] = true
+    scn.option :key, "The key feels heavy in your right hand.\t"
+    scn.actions[:use][:key][:target] = true
   end
   action :go, :north, 'You trod towards the woods.', :woods
   action :use, :frog, "You make a lucky charm for your key ring. Ew ew ew.", false do |scn|
     scn.options.delete :frog
   end
   action :use, :key, "A magic gate unfolds before your eyes.", false do |scn|
-      scn.options.store :south, "The magic gate looms...\t\t"
-      scn.actions[:go].store :south, {
-        :description => "You draw nearer to the magic gate.",
-        :target      => :gate
-      }
+    scn.options.store :south, "The magic gate looms...\t\t"
+    action :go, :south, "You draw nearer to the magic gate.", :gate do |scn|
       scn.options.delete :key
+    end
   end
-=begin
-  action :use, :frog, "You make a lucky charm for your key ring. Ew ew ew." do |scn|
-    scn.options.delete :frog
-  end
-=end
-
 end
 
 game.dsl_add_scene(:woods) do
@@ -64,7 +61,13 @@ game.dsl_add_scene(:woods) do
 end
 
 game.dsl_add_scene :gate do
-  title "You get closer to the gate.
+  title "
+    _____
+  ~| . . | ~
+ ~ | . . |~. 
+___|_____|___
+
+You get closer to the gate.
 It's enveloped by this strange shimmer, and fog leaks out from the hinges and the frame."
 
   option :doorknob, "An exquisite ivory door know adorns the door."
@@ -80,7 +83,7 @@ It's enveloped by this strange shimmer, and fog leaks out from the hinges and th
 end
 
 game.dsl_add_scene :corridor do
-  title "You blink your eyes. The door behind you disappears at it shuts down.
+  title "You blink your eyes. The door behind you disappears at it shuts.
 You are in a long corridor, all surfaces shiny white marble. Looking around you ponder, are you in Heaven?
 There are 66 doors, 6 feet apart from each other. But a few of them have a label possibly describing where they lead to."
 
@@ -129,7 +132,14 @@ You look around the house."
 end
 
 game.dsl_add_scene :wc do
-  title "You are surprised by the lack of smell.
+  title "
+ ___
+|   |_____.,
+|___    __-´
+    |  |
+    |__|
+
+You are surprised by the lack of smell.
 There is nothing here, really."
   
   option :toilet,  "Maybe you need to use the toilet?"
