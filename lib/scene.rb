@@ -23,13 +23,21 @@ class Scene
   end
   
   def action(name, object, description, target=nil, &blk)
+    
+    if @actions[name]
+      @actions[name].store object, {
+        :description => description,
+        :target      => target,
+        :modifier    => blk
+      }
+    else
     @actions.store name, {
       object => {
         :description => description,
         :target      => target,
         :modifier    => blk
-      }
-    }
+    }}
+    end
   end
   
   def do_action(name, object, msg, &blk)
