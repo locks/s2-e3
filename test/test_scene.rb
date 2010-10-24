@@ -34,4 +34,23 @@ describe Scene do
       @scene.options[:key].must_equal "You see a key on the floor."
     end
   end
+  
+  describe '#action' do
+    describe 'when adding one action' do
+      it "actions should have one action" do
+        @scene.action :go, "This is an action", :away
+      
+        @scene.actions.size.must_equal 1
+      end
+    end
+    
+    describe 'when adding two actions' do
+      it "should have two actions" do
+        @scene.action :go, :away, "This is an action", :place
+        @scene.action :use, :pistol, "You kill a frog."
+        
+        @scene.actions.size.must_equal 2
+      end
+    end
+  end
 end
