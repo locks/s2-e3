@@ -14,8 +14,8 @@ game = World.new(
 ___|______|/___"
 )
 
-game.dsl_add_scene(:introduction) do
-  title "
+game.add_scene(:introduction) do
+  describe "
 
    V  #    WwW     www
 ...|-_|-.-.| |-.,,,| |-.-.,-.,.-,-.,
@@ -52,8 +52,8 @@ You look around again."
   end
 end
 
-game.dsl_add_scene(:woods) do
-  title "You are at the woods. Finally.\n\n  ... You die."
+game.add_scene(:woods) do
+  describe "You are at the woods. Finally.\n\n  ... You die."
   
   option :back, "Go back in time."
   option :exit, "Retire to aetherland."
@@ -61,8 +61,8 @@ game.dsl_add_scene(:woods) do
   action :go, :back, "Death carefully inverts your hourglass for a couple of seconds.", :introduction
 end
 
-game.dsl_add_scene :gate do
-  title "
+game.add_scene :gate do
+  describe "
     _____
   ~| . . | ~
  ~ | . . |~. 
@@ -83,8 +83,8 @@ It's enveloped by this strange shimmer, and fog leaks out from the hinges and th
   end
 end
 
-game.dsl_add_scene :corridor do
-  title "You blink your eyes. The door behind you disappears at it shuts.
+game.add_scene :corridor do
+  describe "You blink your eyes. The door behind you disappears at it shuts.
 You are in a long corridor, all surfaces shiny white marble. Looking around you ponder, are you in Heaven?
 There are 66 doors, 6 feet apart from each other. But a few of them have a label possibly describing where they lead to."
 
@@ -95,8 +95,8 @@ There are 66 doors, 6 feet apart from each other. But a few of them have a label
   action :go, :west, "Hesitating you gently push the creeking door to be greated with a rolling hill", :field
 end
 
-game.dsl_add_scene :garden do
-  title "You can't believe what you eyes are seeing. It frightens you to the core so much you start shaking."
+game.add_scene :garden do
+  describe "You can't believe what you eyes are seeing. It frightens you to the core so much you start shaking."
   option :back, "Go back. NOW!"
   option :it, "Or do you dare look at it?"
   
@@ -106,8 +106,8 @@ game.dsl_add_scene :garden do
   end
 end
 
-game.dsl_add_scene :field do
-  title "You feel the grass and poppies underneath your feet. It smells great here!
+game.add_scene :field do
+  describe "You feel the grass and poppies underneath your feet. It smells great here!
 You see a strange beast on the horizon. It looks at you enraged and starts charging.
 You turn back to face the door but it's gone.
 There are two paths leading away from the foul beast."
@@ -119,8 +119,8 @@ There are two paths leading away from the foul beast."
   action :go, :north, "With heavy breathe you manage to outrun the bloodthirsty creature up the hill.", :woodshack
 end
 
-game.dsl_add_scene :end do
-  title "You see a white wall. The sky is also white in this part.
+game.add_scene :end do
+  describe "You see a white wall. The sky is also white in this part.
 In fact.. everything is white and blocky..."
   
   option :download, "Buffering..."
@@ -130,8 +130,8 @@ In fact.. everything is white and blocky..."
   end
 end
 
-game.dsl_add_scene :woodshack do
-  title "You arrive at the door of the shack.
+game.add_scene :woodshack do
+  describe "You arrive at the door of the shack.
 Hearing the fast stomping feet of your chaser you hurry getting inside the house and running the bolt on the door.
 The beast pounds on your door for a while and then leaves.
 You look around the house."
@@ -143,8 +143,8 @@ You look around the house."
   action :go, :north, "Hoping you catch a break you step into the living room.", :livingroom
 end
 
-game.dsl_add_scene :wc do
-  title "
+game.add_scene :wc do
+  describe "
  ___
 |   |_____.,
 |___    __-´
@@ -163,33 +163,11 @@ There is nothing here, really."
   action :go, :back, "You return to the hall way.", :woodshack
 end
 
-game.dsl_add_scene :livingroom do
-  title "It's completely empty and you die. Sorry."
+game.add_scene :livingroom do
+  describe "It's completely empty and you die. Sorry."
   
   option :death, "Figure this one out yourself."
   action :use, :death, "GOODBYE FOREVER" do |scn| exit end
 end
-
-
-
-=begin
-game.dsl_add_scene :river do
-end
-
-game.dsl_add_scene :bank do
-end
-
-game.dsl_add_scene :trollcamp do
-end
-
-game.dsl_add_scene :ghosttown do
-end
-
-game.dsl_add_scene :emptyhouse do
-end
-
-game.dsl_add_scene :home do
-end
-=end
 
 game.start
